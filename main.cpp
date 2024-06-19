@@ -10,7 +10,6 @@
 #define SALIR 0
 #define LISTADO_DE_JUGADORES 2
 #define DAR_DE_BAJA 3
-// #define DAR_DE_ALTA 5
 #define MODIFICAR_USUARIO 4
 #define JUGAR 5
 #define LISTADO_POR_FECHAS 6
@@ -32,7 +31,7 @@ using namespace std;
 /*
 //------------------//
       PROBLEMAS o FALTA
-- falta que ordene por nickname.
+
 
 
 //------------------//
@@ -98,6 +97,7 @@ int cantJugadoresInactivos = 0;
 partida lista_partidas[MAX_PARTIDAS];
 int cantPartidas = 0;
 int cont1 = 0;
+int cont2 = 0;
 bool ingame = false; 
 
 int main() {
@@ -121,7 +121,7 @@ int main() {
     bool encontrado = false;
     bool encontrado1 = false;
     bool perder = false;
-    //int totalGanadas = 0;
+    
     do {
         menu();
         cin >> opcion;
@@ -149,7 +149,7 @@ int main() {
                 }
                 while (true){
                     cout << "ingrese su cedula: ";
-                    cin >> ci;
+                    ci = getValidatedInt();
                     if(formato_cedula(ci)){
                         break;
                     }else{
@@ -199,6 +199,7 @@ int main() {
                         }
                         cout << "cantidad ganadas: " << totalGanadas << endl;
                         player++;
+                        totalGanadas = 0;
                     }
                 } else {
                     cout << "No hay jugadores ingresados." << endl;
@@ -256,12 +257,12 @@ int main() {
                 cin>>nick;
                 cout<<"ingrese contrasena para jugar: ";
                 cin>>contra;
-                    
+                encontrado = false;  
                 for(int i=0;i<cantJugadoresActivos;i++){
                     if(jugadores_activos[i].nickname == nick && jugadores_activos[i].contrasena == contra){
                         
                         encontrado = true;
-                        
+                         
                         formato_Fecha (diaa,mess,anoo);
                         
                         lista_partidas[cantPartidas].nickname = nick;
@@ -274,7 +275,7 @@ int main() {
                 }
                 if(encontrado == false){
                     cout<<"error al ingresar los datos."<<endl;
-                    esperar();
+                    
                     break;
                 }
                 if (!ingame){
@@ -282,8 +283,13 @@ int main() {
                 }
                 if(encontrado == true){
                     matriz_inicial(m1);
+                    
                     do{
-                                    
+                        if(cont2 < 1){
+                            mostrar_matriz(m1);
+                            cont2++;
+                        }
+                            
                         cout<< GREEN << "## BIENVENDIO AL BUSCAMINAS ##"<<endl<< RESET;
                         cout<<endl;
                         cout<<BLUE<<"1. (E:explorar)"<<RESET<<endl;
@@ -324,9 +330,9 @@ int main() {
                                         matriz_rellena(m);
                                         cout<<endl;
                                         cont1 = 0;
+                                        cont2 = 0;
                                         lista_partidas[cantPartidas-1].resutado = -1;
                                         perder = true;
-                                        esperar();
                                         break;
                                     }
                                     else{
@@ -341,9 +347,9 @@ int main() {
                             } 
                             case 2: {
                                 cout<<CYAN<<"ingrese la fila"<<RESET<<endl;
-                                cin>>fila;
+                                fila = getValidatedInt();
                                 cout<<CYAN<<"ingrese la columna"<<RESET<<endl;
-                                cin>>col;
+                                col = getValidatedInt();
                                 
                                 if(!EsValido(fila,col)){
                                     cout<<RED<<"jugada invalida..."<<RESET<<endl;
@@ -360,12 +366,13 @@ int main() {
                                 cout<<"gracias por jugar."<<endl;
                                 lista_partidas[cantPartidas-1].resutado = 0;
                                 cont1 = 0;
-                                esperar();
+                                cont2 = 0;
                                 break;
                             }
                             case 4: {
-                                cout<<"gracias por jugar."<<endl; // revisar esto 
+                                cout<<"gracias por jugar."<<endl;  
                                 cont1 = 0;
+                                cont2 = 0;
                                 break;
                             }
                             default: {
@@ -385,7 +392,7 @@ int main() {
                         cout << "PARTIDA " << player << ":" << endl;
                         cout << "Fecha: " << lista_partidas[i].dia << "-" << lista_partidas[i].mes << "-" << lista_partidas[i].ano << endl;
                         cout << "Nickname: " << lista_partidas[i].nickname << endl;
-                        // int resutado; //-1 = Perdio    0 = Abandono    1 = Gano
+                        
                         if(lista_partidas[i].resutado == 1){
                             cout << "resultado: " << "Gano" << endl;
                         }
@@ -398,7 +405,7 @@ int main() {
                         cout << endl;
                         player++;
                     }
-                    esperar();
+                    
                     
                 }
                 else {
@@ -408,30 +415,36 @@ int main() {
             case BUSCAR_PARTIDAS_POR_FECHAS:
             
                 cout << "ingrese dia a buscar: ";
-                cin >> diaa;
+                diaa = getValidatedInt();
                 cout << "ingrese mes a buscar: ";
-                cin >> mess;
+                mess = getValidatedInt(); 
                 cout << "ingrese ano a buscar: ";
-                cin >> anoo;
+                anoo = getValidatedInt();
+                encontrado1 = false;
                 
                 for(int i=0;i<cantPartidas;i++){
                     if(lista_partidas[i].dia == diaa && lista_partidas[i].mes == mess && lista_partidas[i].ano == anoo){
                         encontrado1 = true;
-                        cout << "PARTIDA " << endl;
+                        cout << "PARTIDA " << i + 1 << endl;
                         cout << "dia: " << lista_partidas[i].dia << endl;
                         cout << "mes: " << lista_partidas[i].mes << endl;
                         cout << "ano: " << lista_partidas[i].ano << endl;
                         cout << "Nickname: " << lista_partidas[i].nickname << endl;
-                        cout << "Resultado: " << lista_partidas[i].resutado << endl;
+                        if (lista_partidas[i].resutado == 1) {
+                            cout << "Resultado: Gano" << endl;
+                        } else if (lista_partidas[i].resutado == 0) {
+                            cout << "Resultado: Abandono" << endl;
+                        } else {
+                            cout << "Resultado: Perdio" << endl;
+                        }
                         cout << endl;
                         
-                        
                     }
-                    esperar();
+                    
                 }
                 if(!encontrado1){
                     cout<<"no existe una partida con esa fecha."<<endl;
-                    esperar();
+                    
                 }
                     
                 break;
@@ -439,7 +452,7 @@ int main() {
                 cout << "Ingrese nickname a buscar: ";
                 cin >> nickname;
                 listarPartidasPorNickname(lista_partidas, cantPartidas, nickname);
-                esperar();
+                
                 break;
             default:{
                 system("clear");
@@ -481,8 +494,7 @@ void llenarMatriz (char m[MAX][MAX],int x,int y){
     m[x][y] = '0';
     
     //UBICO LAS BOMBAS
-    cout << "CONT BOMBAS: "<<contBombas<<endl;
-    cout << "CANT BOMBAS: "<<CantBombas<<endl;
+
     while(contBombas < CantBombas){
         for (int h =x - 1; h <= x + 1; h++) {
             for (int t = y - 1; t <=y + 1; t++) {
@@ -493,13 +505,12 @@ void llenarMatriz (char m[MAX][MAX],int x,int y){
         }
         // Imprimo
         pos1 = rand () % MAX + 1;
-        cout << "POS1: "<<pos1<<endl;
         pos2 = rand () % MAX + 1;
-        cout << "POS2: "<<pos2<<endl;
+        
         if(m[pos1][pos2] != 'B' && (x != pos1 && y != pos2) && m[pos1][pos2] != '.'){
             m[pos1][pos2] = 'B';
             contBombas++;
-            cout << "COLOQUE UNA BOMBA" << endl;
+            
             for(int i=1;i<=MAX;i++){
                 for(int j=1;j<=MAX;j++){
                     if(m[i][j] != 'B'){                        
@@ -626,6 +637,7 @@ void the_champion (char m1[MAX][MAX],char m[MAX][MAX]){
         }
         lista_partidas[cantPartidas-1].resutado = 1;
         cont1 = 0;
+        cont2 = 0;
         
         ingame = false;
         
@@ -670,16 +682,16 @@ bool formato_FechaNac (int dia,int mes,int ano){
      while (cont < 100){
         cout << "Ingrese dia de nacimiento: ";
         int fech;
-        cin >> fech;
+        fech = getValidatedInt();
         if (fech<=31 && fech>=1){
             jugadores_activos[cantJugadoresActivos].diaNac = fech;
             cout << "Ingrese mes de nacimiento: ";
-            cin>>fech;
+            fech = getValidatedInt();
             if(fech<=12 && fech>=1){
                 jugadores_activos[cantJugadoresActivos].mesNac = fech; 
                                 
                 cout << "Digite de año nacimiento:  ";
-                cin >> fech;
+                fech = getValidatedInt();
                 if (fech<=2024){
                     jugadores_activos[cantJugadoresActivos].anoNac = fech;
                     return false;
@@ -824,6 +836,9 @@ void listarPartidasPorNickname(partida lista_partidas[MAX_PARTIDAS], int cantPar
                 cout << "Resultado: Perdio" << endl;
             }
             cout << endl;
+        }
+        else{
+            cout<<"no existe ese nickname." << endl;
         }
     }
 }
