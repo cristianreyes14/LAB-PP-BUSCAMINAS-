@@ -12,7 +12,7 @@
 #define DAR_DE_BAJA 3
 #define MODIFICAR_USUARIO 4
 #define JUGAR 5
-#define LISTADO_POR_FECHAS 6
+#define LISTADO_DE_PARTIDAS 6
 #define BUSCAR_PARTIDAS_POR_FECHAS 7
 #define BUSCAR_PARTIDAS_POR_NICKNAME 8
 
@@ -112,14 +112,14 @@ int main() {
     jugador j;
     int ci;
     string nickname;
-    string nickname1;
-    string nick;
+    string nickname1; // dar de baja
+    string nick; // el nick para jugar
     string nickname_modificador;
     int pos;
-    string contra;
-    bool existe2 = false;
-    bool encontrado = false;
-    bool encontrado1 = false;
+    string contra; //jugar
+    bool existe2 = false; // si se encuentra el nickname para modificar
+    bool encontrado = false; // encontro el nick y la contra para jugar
+    bool encontrado1 = false; // encontro la fecha que se buscaba
     bool perder = false;
     
     do {
@@ -385,7 +385,7 @@ int main() {
                     while(op != 3 && op != 4 && !perder && ingame);
                 }            
             break;
-            case LISTADO_POR_FECHAS:
+            case LISTADO_DE_PARTIDAS:
                 if (cantPartidas > 0) {
                     int player=1;
                     for (int i = 0; i < cantPartidas; i++) {

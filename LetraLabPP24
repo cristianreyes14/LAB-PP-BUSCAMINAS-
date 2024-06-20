@@ -1,0 +1,59 @@
+                                    Laboratorio 2
+                            Principios de Programación
+
+El presente obligatorio es continuación del primer obligatorio y será realizado
+en los mismos equipos ya formados.
+El propósito es implementar la gestión del juego “Buscaminas” con la gestión
+de los usuarios y juegos. Se deberá utilizar estructuras para tener una mejor
+representación.
+
+El programa deberá contar con el siguiente menú:
+
+JUGADOR:
+
+Alta de jugador: permitirá registrar los datos del jugador: CI (validar*),
+                 fecha de nacimiento (validar*), nombre, apellido, nickname (no se debe
+                 repetir) y contraseña.
+
+-Baja de jugador: permitirá dar de baja a un jugador. Si el jugador dado de
+                  baja se registra nuevamente, se reactivará su cuenta sin tener que pedir los
+                  datos nuevamente. Tener en cuenta que la única razón por la que no se podrá
+                  ingresar un nuevo jugador es que ya se hayan ingresado los MAX_JUGADORES
+                  posibles.
+
+Modificación de jugador: permitirá modificar los datos del jugador, para ello
+                         el jugador ingresará su nickname y el programa mostrará todos los datos
+                         modificables permitiéndole guardar los datos o cancelar la operación.
+
+CONSULTAS:
+
+-Listado de jugadores: CI, nombre, apellido, nickname y cantidad de partidas
+ ganadas, ordenado por nickname.
+
+-Listado de todas las partidas: fecha de la partida, nickname y resultado del
+ juego (si ganó, perdió o abandonó).
+
+-Listado de partidas por jugador: se deberá solicitar el nickname del jugador
+ a consultar, y la salida será: fecha de la partida, nickname, resultado de la
+ partida.
+
+-Listado de partidas por fecha: se deberá solicitar la fecha a consultar,
+ salida: fecha de la partida, nickname jugador, resultado de la partida.
+
+JUGAR
+
+Esta opción funcionará igual que el obligatorio anterior pero el jugador, al
+comenzar a jugar, ingresará nickname y contraseña (que se deberá controlar
+que sean correctos) y dará comienzo el juego. También deberá agregar al
+juego una opción para “Rendirse” con lo cual el jugador perderá el juego pero
+se le guardará como “abandono”. Una vez terminado el juego se guardarán los
+datos de la partida.
+
+Salir: permite salir del juego.
+
+Nota:
+Todos los menús deben tener la opción de volver al menú anterior (excepto el
+primero que tendrá la opción de salir del juego).
+
+* Las validaciones deberán hacerse mediante funciones.
+
