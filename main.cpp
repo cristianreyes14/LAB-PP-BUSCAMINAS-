@@ -131,7 +131,6 @@ int main() {
                 cin >> nickname;
                 if (existe1(nickname, jugadores_activos, cantJugadoresActivos)) {
                     cout << "Ya existe un jugador con este nickname." << endl;
-                    esperar();
                     break;
                 }else if (existeInactivos(nickname, jugadores_inactivos, cantJugadoresInactivos)) {
                     cout << "Ya existe un jugador con este nickname dado de baja, se recuperara el mismo." << endl;
@@ -158,7 +157,6 @@ int main() {
                 }
                 if (existe(ci, jugadores_activos, cantJugadoresActivos)) {
                     cout << "Ya existe un jugador con esta cedula." << endl;
-                    esperar();
                     break;
                 }
 
